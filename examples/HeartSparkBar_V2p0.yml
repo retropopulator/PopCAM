@@ -1,0 +1,21 @@
+strips:
+  "led::CHIPLED_1206":
+    component_spacing: 4
+    x: 10
+    y: 10
+    z: 7
+
+part:
+  x: 100
+  y: 100
+  z: 7
+
+backlash:
+  x: 0
+  y: 0
+  z: 0
+
+scale:
+  x: 1
+  y: 1
+  z: 1
