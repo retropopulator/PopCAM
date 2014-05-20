@@ -14,7 +14,8 @@ class GCodeGenerator
 
   def run
     @gcodes = []
-    gcodes << "G21\nG91\n"
+    # gcodes << "G21"
+    gcodes << "G91\n"
     board.components.sort_by {|c| c[:package][:name]}.each do |c|
       add_component(c) if c[:package].present?
     end
@@ -34,7 +35,7 @@ class GCodeGenerator
     # calculating the strip index and x, y and z position
     strip_index = strip[:next_index]
     strip_position = strip.slice(*@xyz)
-    strip_position[:x] += strip[:component_spacing] * strip[:next_index]
+    strip_position[:y] += strip[:component_spacing] * strip[:next_index]
     # calculating the absolute component position (part offset + component
     # position)
     c_position = {}
@@ -71,6 +72,7 @@ class GCodeGenerator
       relative_position += backlash(k, relative_position)
       gcode += " #{k.upcase}#{relative_position * @layout[:scale][k]}"
     end
+    gcode += " F#{@layout[:feedrate]}"
     gcodes << gcode
   end
 

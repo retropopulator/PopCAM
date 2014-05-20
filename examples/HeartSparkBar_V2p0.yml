@@ -1,14 +1,18 @@
 strips:
   "led::CHIPLED_1206":
     component_spacing: 4
-    x: 10
-    y: 10
-    z: 7
+    x: 305
+    y: 3
+    z: -3
+    # z: -5
 
 part:
-  x: 100
-  y: 100
-  z: 7
+  x: 227.5
+  y: 6.5
+  z: -4
+
+# feedrate: 1200
+feedrate: 300
 
 backlash:
   x: 0
