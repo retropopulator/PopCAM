@@ -14,8 +14,8 @@ class GCodeGenerator
 
   def run
     @gcodes = []
-    # gcodes << "G21"
-    gcodes << "G91\n"
+    @gcodes = @gcodes.concat @layout[:gcode][:before].split "\n"
+    move z: @layout[:z_travel_height]
     board.components.sort_by {|c| c[:package][:name]}.each do |c|
       add_component(c) if c[:package].present?
     end
@@ -48,17 +48,15 @@ class GCodeGenerator
 
   def add_component_gcode(pkg_name, strip, strip_position, c_position)
     # Commenting the GCode
-    gcodes << "; #{pkg_name} ##{strip[:next_index]}"
+    gcodes << "\n; #{pkg_name} ##{strip[:next_index]}"
     # Pick up the component
     move strip_position.slice(*@xy)
     move strip_position.slice :z
-    move z: 0
+    move z: @layout[:z_travel_height]
     # Move the component into position and place it
     move c_position.slice(*@xy)
     move c_position.slice :z
-    move z: 0
-    # Newline
-    gcodes << ""
+    move z: @layout[:z_travel_height]
   end
 
   # Adds a move command (G1) to the gcode (takes absolute positions)

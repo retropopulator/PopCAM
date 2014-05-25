@@ -1,0 +1,9 @@
+Critical Pain Points:
+
+- show x, y, z position in Tegh gui / fuck it / 20 updates per second
+- the acrylic board is not secured. Tape or pin that fucker down!
+
+Less Important:
+
+- reset in print should not require restarting Tegh
+- home disapears sometimes

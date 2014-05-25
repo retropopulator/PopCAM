@@ -1,18 +1,32 @@
+# strips:
+#   "led::CHIPLED_1206":
+#     component_spacing: 4
+#     x: 173
+#     y: 5
+#     z: 9
+#     # z: 6.5
+
+# part:
+#   x: 92.8
+#   y: 160.34
+#   z: 7.4
+
 strips:
   "led::CHIPLED_1206":
     component_spacing: 4
-    x: 305
-    y: 3
-    z: -3
-    # z: -5
+    x: 173
+    y: 5
+    z: 9
+    # z: 6.5
 
 part:
-  x: 227.5
-  y: 6.5
-  z: -4
+  x: 94.6
+  y: 159.5
+  z: 7.4
 
-# feedrate: 1200
-feedrate: 300
+feedrate: 12000
+# feedrate: 3000
+z_travel_height: 10
 
 backlash:
   x: 0
@@ -23,3 +37,16 @@ scale:
   x: 1
   y: 1
   z: 1
+
+gcode:
+  before: |
+    ; set units to mm
+    G21
+    ; move to home
+    G1 X0 F300
+    G1 Z5 F300
+    G90
+    G28 X0 Y0
+    G28 X0 Y0 Z0
+    ; enable relative movement
+    G91
