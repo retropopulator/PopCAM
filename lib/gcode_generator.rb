@@ -2,8 +2,8 @@ class GCodeGenerator
   attr_reader :layout, :gcodes, :board
 
   def initialize(opts)
-    @xy = %i(x y)
-    @xyz = %i(x y z)
+    @xy = [:x, :y]
+    @xyz = [:x, :y, :z]
     @current_direction = {x: -1, y: -1, z: -1}
     @current_position = {x: 0, y: 0, z: 0}
     @opts = opts
