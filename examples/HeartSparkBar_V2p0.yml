@@ -42,7 +42,7 @@ gcode:
   before: |
     ; set units to mm
     G21
-    ; move to home
+    ; clear the jig and move to home
     G1 X0 F300
     G1 Z5 F300
     G90
@@ -50,3 +50,11 @@ gcode:
     G28 X0 Y0 Z0
     ; enable relative movement
     G91
+
+  after: |
+    ; clear the jig and move to home
+    G1 X0 F300
+    G1 Z5 F300
+    G90
+    G28 X0 Y0
+    G28 X0 Y0 Z0

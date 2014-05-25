@@ -19,6 +19,7 @@ class GCodeGenerator
     board.components.sort_by {|c| c[:package][:name]}.each do |c|
       add_component(c) if c[:package].present?
     end
+    @gcodes = @gcodes.concat @layout[:gcode][:after].split "\n"
     return self
   end
 
