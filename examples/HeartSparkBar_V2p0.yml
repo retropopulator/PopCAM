@@ -11,7 +11,7 @@
 #   y: 160.34
 #   z: 7.4
 
-strips:
+tapes:
   "led::CHIPLED_1206":
     component_spacing: 4
     x: 173
@@ -19,7 +19,7 @@ strips:
     z: 9
     # z: 6.5
 
-part:
+board:
   x: 94.6
   y: 159.5
   z: 7.4

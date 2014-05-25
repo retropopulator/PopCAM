@@ -9,7 +9,7 @@ class GCodeGenerator
     @opts = opts
     @board = opts[:board]
     @layout = YAML::load_file(@opts[:layout_file]).deep_symbolize_keys
-    @layout[:strips].each {|k, strip| strip[:next_index] = 0}
+    @layout[:tapes].each {|k, tape| tape[:next_index] = 0}
   end
 
   def run
@@ -31,28 +31,28 @@ class GCodeGenerator
 
   def add_component(c)
     pkg_name = c[:package][:name]
-    strip = @layout[:strips][pkg_name.to_sym]
-    return puts "Missing strip for #{pkg_name}. Skipping." if strip.blank?
-    # calculating the strip index and x, y and z position
-    strip_index = strip[:next_index]
-    strip_position = strip.slice(*@xyz)
-    strip_position[:y] += strip[:component_spacing] * strip[:next_index]
-    # calculating the absolute component position (part offset + component
+    tape = @layout[:tapes][pkg_name.to_sym]
+    return puts "Missing tape for #{pkg_name}. Skipping." if tape.blank?
+    # calculating the tape index and x, y and z position
+    tape_index = tape[:next_index]
+    tape_position = tape.slice(*@xyz)
+    tape_position[:y] += tape[:component_spacing] * tape[:next_index]
+    # calculating the absolute component position (board offset + component
     # position)
     c_position = {}
-    @xyz.each {|k| c_position[k] = @layout[:part][k] + (c[k]||0) }
+    @xyz.each {|k| c_position[k] = @layout[:board][k] + (c[k]||0) }
     # adding the GCode
-    add_component_gcode(pkg_name, strip, strip_position, c_position)
-    # incrementing the strip position
-    strip[:next_index] += 1
+    add_component_gcode(pkg_name, tape, tape_position, c_position)
+    # incrementing the tape position
+    tape[:next_index] += 1
   end
 
-  def add_component_gcode(pkg_name, strip, strip_position, c_position)
+  def add_component_gcode(pkg_name, tape, tape_position, c_position)
     # Commenting the GCode
-    gcodes << "\n; #{pkg_name} ##{strip[:next_index]}"
+    gcodes << "\n; #{pkg_name} ##{tape[:next_index]}"
     # Pick up the component
-    move strip_position.slice(*@xy)
-    move strip_position.slice :z
+    move tape_position.slice(*@xy)
+    move tape_position.slice :z
     move z: @layout[:z_travel_height]
     # Move the component into position and place it
     move c_position.slice(*@xy)
