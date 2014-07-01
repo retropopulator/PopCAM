@@ -49,6 +49,18 @@ module Rotatable
     @abs_coords.blank? or (parent.present? and parent.coordinates_dirty?)
   end
 
+  def relative_x
+    @relative_x || 0
+  end
+
+  def relative_y
+    @relative_y || 0
+  end
+
+  def relative_z
+    @relative_z || 0
+  end
+
   def absolute_coordinates
     return @abs_coords unless coordinates_dirty?
     if parent.present?

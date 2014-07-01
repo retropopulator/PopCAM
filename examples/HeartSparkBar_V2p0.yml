@@ -1,6 +1,7 @@
 tapes:
   "led::CHIPLED_1206":
     component_spacing: 4
+    rotation: 0
     x: 173
     y: 5
     z: 9
@@ -22,11 +23,6 @@ feedrate: 12000
 # feedrate: 3000
 z_travel_height: 10
 
-backlash:
-  x: 0
-  y: 0
-  z: 0
-
 scale:
   x: 1
   y: 1
@@ -42,8 +38,8 @@ gcode:
     G90
     G28 X0 Y0
     G28 X0 Y0 Z0
-    ; enable relative movement
-    G91
+    ; enable absolute movement
+    G90
 
   after: |
     ; clear the jig and move to home
