@@ -1,4 +1,8 @@
+require_relative './rotatable'
+require_relative './component'
+
 class Board
+  include Rotatable
 
   attr_accessor :libraries, :components
 
@@ -14,7 +18,6 @@ class Board
     f.close
     return self
   end
-
 
   # Loading the package libraries (each package is a specific type of component)
   # Packages are keyed by [library_name][package_name]
@@ -53,13 +56,19 @@ class Board
       raise "Library not found: #{el.attr("library")}" unless library.present?
       package = library[el.attr("package").to_sym]
       raise "Package not found: #{el.attr("package")}" unless package.present?
-      {
+      Component.new(
         package: package,
-        x: el.attr("x").to_f,
-        y: el.attr("y").to_f,
-        rotation: parse_rot(el)
-      }
+        relative_x: el.attr("x").to_f,
+        relative_y: el.attr("y").to_f,
+        rotation: parse_rot(el),
+        parent: self
+      )
     end
+  end
+
+  def mark_as_dirty!
+    super
+    components.each &:mark_as_dirty!
   end
 
   private

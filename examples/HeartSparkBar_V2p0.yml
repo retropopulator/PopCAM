@@ -19,10 +19,17 @@ tapes:
     z: 9
     # z: 6.5
 
-board:
-  x: 94.6
-  y: 159.5
-  z: 7.4
+boards:
+  # Board 1
+  - x: 94.6
+    y: 159.5
+    z: 7.4
+    rotation: 0
+  # Board 2
+  - x: 10
+    y: 10
+    z: 7.4
+    rotation: 90
 
 feedrate: 12000
 # feedrate: 3000

@@ -7,9 +7,9 @@ require 'ap'
 require_relative './board'
 require_relative './gcode_generator'
 
-base_name = "./examples/HeartSparkBar_V2p0"
+base_name = ARGV[0] || "./examples/HeartSparkBar_V2p0"
 opts = {
-  brd_file: ARGV[0] || "#{base_name}.brd",
+  brd_file: "#{base_name}.brd",
   layout_file: "#{base_name}.yml"
 }
 
@@ -18,7 +18,7 @@ opts[:board] = board
 
 # Getting a list of the components on the board
 puts "Component List:"
-board.components.map{|c| (c[:package]||{})[:name]}.uniq.each do |name|
+board.components.map{|c| (c.package||{})[:name]}.uniq.each do |name|
   puts "*  #{name}"
 end
 
