@@ -13,11 +13,19 @@ boards:
     y: 159.5
     z: 7.4
     rotation: 0
+    # Top or Bottom
+    layer: Top
+    # 0 to 360 degrees
+    rotation: 0
   # Board 2
   - x: 10
     y: 10
     z: 7.4
     rotation: 90
+    # Top or Bottom
+    layer: Top
+    # 0 to 360 degrees
+    rotation: 0
 
 feedrate: 12000
 # feedrate: 3000

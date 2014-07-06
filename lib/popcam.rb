@@ -34,9 +34,12 @@ end
 opts[:board] = board
 
 # Getting a list of the components on the board
-puts "Component List:"
-board.components.map{|c| (c.package||{})[:name]}.uniq.each do |name|
-  puts "*  #{name}"
+puts "Bill of Materials"
+puts "Qty  Part"
+puts "-"*60
+board.components.map{|c| c.device_name}.uniq.each do |name|
+  qty = board.components.select{|c| c.device_name == name}.count
+  puts "#{qty.to_s.rjust 3, " "}  #{name}"
 end
 
 puts "\n\n"
@@ -59,5 +62,5 @@ puts "\n\n"
 
 gcode_generator = GCodeGenerator.new(opts)
 
-gcode_generator.run.write("#{base_name}.gcode")
+gcode_generator.run.write("#{base_path}.gcode")
 # ap gcode_generator.gcodes

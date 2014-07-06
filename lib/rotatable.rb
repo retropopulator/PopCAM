@@ -39,7 +39,7 @@ module Rotatable
     @relative_x = coords[:x] || 0
     @relative_y = coords[:y] || 0
     @relative_z = coords[:z] || 0
-    self.layer = coords[:layer]
+    self.layer = coords[:layer] || "Top"
     self.rotation = coords[:rotation] || 0
     mark_as_dirty!
   end

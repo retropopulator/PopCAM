@@ -67,14 +67,11 @@ class Board
       error = "Library not found: #{el.attr("library")}" unless library.present?
       package = library[el.attr("package").to_sym]
       error = "Package not found: #{el.attr("package")}" unless package.present?
-      unless el[:value].present?
-        error = "Value missing for #{el[:name]}. Please set the value to the "
-        error += "device name or resistor/capacitor value"
-      end
       raise BrdParsingException.new error if error.present?
-      ap el
+      device_name = [el[:package], el[:value]].reject {|s| s.blank?}
+      .join("::").to_sym
       Component.new(
-        device_name: "#{el[:package]}::#{el[:value]}".to_sym,
+        device_name: device_name,
         package: package,
         relative_x: el.attr("x").to_f,
         relative_y: el.attr("y").to_f,
