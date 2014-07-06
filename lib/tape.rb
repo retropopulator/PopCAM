@@ -27,8 +27,4 @@ class Tape
       parent: self
     )
   end
-
-  def self.id(obj)
-    "#{obj.device_name}::#{obj.rotation.round}deg".to_sym
-  end
 end

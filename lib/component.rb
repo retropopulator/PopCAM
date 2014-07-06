@@ -25,7 +25,7 @@ class Component
   end
 
   def tape_id
-    Tape.id self
+    "#{obj.device_name}::#{obj.rotation.round}deg".to_sym
   end
 
 end
