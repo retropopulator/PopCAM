@@ -1,6 +1,6 @@
 module Rotatable
   attr_accessor(
-    :relative_x, :relative_y, :relative_z, :rotation, :parent, :layer
+    :relative_x, :relative_y, :relative_z, :relative_rotation, :parent, :layer
   )
 
   # Absolute x coordinate
@@ -18,18 +18,23 @@ module Rotatable
     absolute_coordinates[:z]
   end
 
+  def rotation
+    parent_rotation = parent.present? ? parent.rotation : 0
+    @abs_rotation = (relative_rotation||0) + parent_rotation
+  end
+
   # Memoized sin rotation value
   def sin_r
-    @sin_theta = Math::sin(rotation * Math::PI / 180  || 0)
+    @sin_theta = Math::sin(relative_rotation * Math::PI / 180  || 0)
   end
 
   # Memoized cos rotation value
   def cos_r
-    @cos_theta = Math::cos(rotation * Math::PI / 180  || 0)
+    @cos_theta = Math::cos(relative_rotation * Math::PI / 180  || 0)
   end
 
-  def rotation=(val)
-    @rotation = val
+  def relative_rotation=(val)
+    @relative_rotation = val
     @cos = nil
     @sin = nil
   end
@@ -40,12 +45,15 @@ module Rotatable
     @relative_y = coords[:y] || 0
     @relative_z = coords[:z] || 0
     self.layer = coords[:layer] || "Top"
-    self.rotation = coords[:rotation] || 0
+    self.relative_rotation = (
+      coords[:relative_rotation] || coords[:rotation] || 0
+    )
     mark_as_dirty!
   end
 
   def mark_as_dirty!
     @abs_coords = nil
+    @abs_rotation = nil
   end
 
   def coordinates_dirty?

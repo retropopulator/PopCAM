@@ -1,5 +1,5 @@
 tapes:
-  "led::CHIPLED_1206":
+  "led::CHIPLED_1206::90deg":
     component_spacing: 4
     rotation: 0
     x: 173

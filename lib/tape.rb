@@ -3,18 +3,19 @@ require_relative './rotatable'
 class Tape
   include Rotatable
 
-  attr_accessor :current_index, :component_spacing
+  attr_accessor :id, :current_index, :component_spacing
 
-  def self.from_config(attrs)
-    tape = Tape.new attrs.slice(:rotation, :component_spacing)
-    [:x, :y, :z].each do |k|
+  def self.from_config(id, attrs)
+    tape = Tape.new id, attrs.slice(:component_spacing)
+    [:x, :y, :z, :rotation].each do |k|
       tape.send :"relative_#{k}=", attrs[k]
     end
     return tape
   end
 
-  def initialize(attrs)
+  def initialize(id, attrs)
     self.current_index = -1
+    self.id = id
     attrs.each { |k, v| self.send :"#{k}=", v }
   end
 
@@ -27,4 +28,7 @@ class Tape
     )
   end
 
+  def self.id(obj)
+    "#{obj.device_name}::#{obj.rotation.round}deg".to_sym
+  end
 end

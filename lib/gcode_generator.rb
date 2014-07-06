@@ -14,7 +14,8 @@ class GCodeGenerator
     @layout = YAML::load_file(@opts[:layout_file]).deep_symbolize_keys
     @tapes = {}
     @layout[:tapes].each  do |k, attrs|
-      @tapes[k] = Tape.from_config(attrs)
+      tape = Tape.from_config(k, attrs)
+      @tapes[tape.id] = tape
     end
   end
 
@@ -43,11 +44,11 @@ class GCodeGenerator
   private
 
   def add_component(component)
-    device_name = component.device_name
-    tape = @tapes[device_name]
-    return puts "Missing tape for #{device_name}. Skipping." if tape.blank?
+    tape_id = component.tape_id
+    tape = @tapes[tape_id]
+    return puts "Missing tape for #{tape_id} skipping #{component.name}" if tape.blank?
     # Commenting the GCode
-    comment "#{device_name} ##{tape.current_index}", :h2
+    comment "#{tape_id} ##{tape.current_index}", :h2
     # Pick up the component from the tape
     move_to_component_and_up tape.next_component
     # Move the component into position and place it

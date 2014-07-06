@@ -56,7 +56,7 @@ class Board
     el.attributes.slice(*%w(x y dx dy)).each do |k, v|
       attrs[k.to_sym] = v.value.to_f
     end
-    attrs[:rotation] = parse_rot(el)
+    attrs[:relative_rotation] = parse_rot(el)
     return attrs
   end
 
@@ -68,14 +68,16 @@ class Board
       package = library[el.attr("package").to_sym]
       error = "Package not found: #{el.attr("package")}" unless package.present?
       raise BrdParsingException.new error if error.present?
-      device_name = [el[:package], el[:value]].reject {|s| s.blank?}
+      device_name = [package[:name], el[:value]].reject {|s| s.blank?}
       .join("::").to_sym
+      ap el.attr("rot")
       Component.new(
+        name: el[:name],
         device_name: device_name,
         package: package,
         relative_x: el.attr("x").to_f,
         relative_y: el.attr("y").to_f,
-        rotation: parse_rot(el),
+        relative_rotation: parse_rot(el),
         mirrored: parse_mirrored(el),
         parent: self
       )
@@ -90,7 +92,7 @@ class Board
   private
 
   def parse_rot(el)
-    (el.attr("rot")||"R0")[(1..-1)].to_f
+    (el.attr("rot")||"R0")[/[0-9]+/].to_f
   end
 
   def parse_mirrored(el)

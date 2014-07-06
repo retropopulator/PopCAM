@@ -37,8 +37,8 @@ opts[:board] = board
 puts "Bill of Materials"
 puts "Qty  Part"
 puts "-"*60
-board.components.map{|c| c.device_name}.uniq.each do |name|
-  qty = board.components.select{|c| c.device_name == name}.count
+board.components.map{|c| c.tape_id}.uniq.each do |name|
+  qty = board.components.select{|c| c.tape_id == name}.count
   puts "#{qty.to_s.rjust 3, " "}  #{name}"
 end
 

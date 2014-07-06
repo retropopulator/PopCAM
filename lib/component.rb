@@ -1,9 +1,10 @@
 require_relative './rotatable'
+require_relative './tape'
 
 class Component
   include Rotatable
 
-  attr_accessor :package, :device_name, :mirrored
+  attr_accessor :package, :device_name, :mirrored, :name
 
   @@layer_inversions = {:Top => :Bottom, :Bottom => :Top}
 
@@ -21,6 +22,10 @@ class Component
     else
       package[:layer]
     end
+  end
+
+  def tape_id
+    Tape.id self
   end
 
 end
