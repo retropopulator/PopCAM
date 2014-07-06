@@ -9,6 +9,7 @@ require 'ap'
 require_relative './board'
 require_relative './gcode_generator'
 require_relative './invalid_file_exception'
+require_relative './brd_parsing_exception'
 
 base_name = ARGV[0] || "./examples/HeartSparkBar_V2p0"
 opts = {
@@ -18,7 +19,7 @@ opts = {
 
 begin
   board = Board.new(opts).parse
-rescue InvalidFileException => e
+rescue InvalidFileException, BrdParsingException => e
   puts "ERROR! #{e.message}"
   exit!
 end

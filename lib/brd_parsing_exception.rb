@@ -1,0 +1,3 @@
+class BrdParsingException < Exception
+
+end

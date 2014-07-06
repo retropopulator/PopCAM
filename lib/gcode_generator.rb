@@ -42,11 +42,11 @@ class GCodeGenerator
   private
 
   def add_component(component)
-    pkg_name = component.package[:name]
-    tape = @tapes[pkg_name.to_sym]
-    return puts "Missing tape for #{pkg_name}. Skipping." if tape.blank?
+    device_name = component.device_name
+    tape = @tapes[device_name]
+    return puts "Missing tape for #{device_name}. Skipping." if tape.blank?
     # Commenting the GCode
-    comment "#{pkg_name} ##{tape.current_index}", :h2
+    comment "#{device_name} ##{tape.current_index}", :h2
     # Pick up the component from the tape
     move_to_component_and_up tape.next_component
     # Move the component into position and place it

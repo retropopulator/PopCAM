@@ -1,6 +1,7 @@
 require_relative './rotatable'
 require_relative './component'
 require_relative './invalid_file_exception'
+require_relative './brd_parsing_exception'
 
 class Board
   include Rotatable
@@ -59,10 +60,16 @@ class Board
     # Loading individual components (things on the board / instances of packages)
     self.components = @doc.css('board elements element').map do |el|
       library = libraries[el.attr("library").to_sym]
-      raise "Library not found: #{el.attr("library")}" unless library.present?
+      error = "Library not found: #{el.attr("library")}" unless library.present?
       package = library[el.attr("package").to_sym]
-      raise "Package not found: #{el.attr("package")}" unless package.present?
+      error = "Package not found: #{el.attr("package")}" unless package.present?
+      unless el[:value].present?
+        error = "Value missing for #{el[:name]}. Please set the value to the "
+        error += "device name or resistor/capacitor value"
+      end
+      raise BrdParsingException.new error if error.present?
       Component.new(
+        device_name: "#{el[:package]}::#{el[:value]}".to_sym,
         package: package,
         relative_x: el.attr("x").to_f,
         relative_y: el.attr("y").to_f,
