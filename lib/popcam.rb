@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'rubygems'
 require 'nokogiri'
 require 'active_support/all'
@@ -6,6 +8,7 @@ require 'ap'
 
 require_relative './board'
 require_relative './gcode_generator'
+require_relative './invalid_file_exception'
 
 base_name = ARGV[0] || "./examples/HeartSparkBar_V2p0"
 opts = {
@@ -13,7 +16,13 @@ opts = {
   layout_file: "#{base_name}.yml"
 }
 
-board = Board.new(opts).parse
+begin
+  board = Board.new(opts).parse
+rescue InvalidFileException => e
+  puts "ERROR! #{e.message}"
+  exit!
+end
+
 opts[:board] = board
 
 # Getting a list of the components on the board

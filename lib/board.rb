@@ -1,5 +1,6 @@
 require_relative './rotatable'
 require_relative './component'
+require_relative './invalid_file_exception'
 
 class Board
   include Rotatable
@@ -13,6 +14,11 @@ class Board
   def parse
     f = File.open(@opts[:brd_file])
     @doc = Nokogiri::XML(f)
+    if @doc.css('libraries').blank?
+      msg =  "PopCAM does not support legacy .brd files. "
+      msg += "Please ugrade to Eagle 6 and re-save board."
+      raise InvalidFileException.new msg
+    end
     parse_libraries
     parse_components
     f.close
