@@ -11,7 +11,7 @@ require_relative './gcode_generator'
 require_relative './invalid_file_exception'
 require_relative './brd_parsing_exception'
 
-base_name = ARGV[0] || "./examples/HeartSparkBar_V2p0"
+base_name = File.expand_path(ARGV[0]) || "./examples/HeartSparkBar_V2p0"
 opts = {
   brd_file: "#{base_name}.brd",
   layout_file: "#{base_name}.yml"
