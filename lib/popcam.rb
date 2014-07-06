@@ -11,10 +11,17 @@ require_relative './gcode_generator'
 require_relative './invalid_file_exception'
 require_relative './brd_parsing_exception'
 
-base_name = File.expand_path(ARGV[0]) || "./examples/HeartSparkBar_V2p0"
+if ARGV[0].blank?
+  puts "useage: popcam brd_file"
+  exit!
+end
+
+# Getting an absolute path to the file
+brd_arg = ARGV[0]
+base_path = File.expand_path brd_arg.chomp File.extname(brd_arg)
 opts = {
-  brd_file: "#{base_name}.brd",
-  layout_file: "#{base_name}.yml"
+  brd_file: "#{base_path}.brd",
+  layout_file: "#{base_path}.yml"
 }
 
 begin

@@ -25,10 +25,11 @@ class GCodeGenerator
     # Running through each board instance in the layout
     @layout[:boards].each_with_index do |board_position, index|
       comment "Board ##{index}", :h1
+      # Repositioning the board for this board_position
       board.set_position! board_position.symbolize_keys
       # Adding the components of this board instance
       board.components.sort_by {|c| [c.x, c.y]}.each do |c|
-        add_component(c) if c.package.present?
+        add_component(c) if c.package.present? and c.layer == board.layer.to_sym
       end
     end
     @gcodes = @gcodes.concat @layout[:gcode][:after].split "\n"

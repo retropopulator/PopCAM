@@ -1,5 +1,7 @@
 module Rotatable
-  attr_accessor :relative_x, :relative_y, :relative_z, :rotation, :parent
+  attr_accessor(
+    :relative_x, :relative_y, :relative_z, :rotation, :parent, :layer
+  )
 
   # Absolute x coordinate
   def x
@@ -37,6 +39,7 @@ module Rotatable
     @relative_x = coords[:x] || 0
     @relative_y = coords[:y] || 0
     @relative_z = coords[:z] || 0
+    self.layer = coords[:layer]
     self.rotation = coords[:rotation] || 0
     mark_as_dirty!
   end

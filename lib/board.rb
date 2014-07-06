@@ -38,10 +38,14 @@ class Board
       lib_el.css('package').each do |pkg_el|
         # Adding the package
         pkg_name = pkg_el.attr(:name).to_sym
+        layer_id = pkg_el.css('smd')[0][:layer]
+        layer_name = @doc.css("layers layer[number=\"#{layer_id}\"]")[0][:name]
         lib[pkg_name] = {
           name: "#{lib_name}::#{pkg_name}",
-          pads: pkg_el.css('smd').map {|el| parse_pads el }
+          pads: pkg_el.css('smd').map {|el| parse_pads el },
+          layer: layer_name.to_sym
         }
+        # ap lib[pkg_name]
       end
     end
   end
@@ -49,7 +53,7 @@ class Board
   # Parsing the individual smd pads of the package
   def parse_pads(el)
     attrs = {}
-    el.attributes.slice(*%w(x y dx dy layer)).each do |k, v|
+    el.attributes.slice(*%w(x y dx dy)).each do |k, v|
       attrs[k.to_sym] = v.value.to_f
     end
     attrs[:rotation] = parse_rot(el)
@@ -68,12 +72,14 @@ class Board
         error += "device name or resistor/capacitor value"
       end
       raise BrdParsingException.new error if error.present?
+      ap el
       Component.new(
         device_name: "#{el[:package]}::#{el[:value]}".to_sym,
         package: package,
         relative_x: el.attr("x").to_f,
         relative_y: el.attr("y").to_f,
         rotation: parse_rot(el),
+        mirrored: parse_mirrored(el),
         parent: self
       )
     end
@@ -88,6 +94,10 @@ class Board
 
   def parse_rot(el)
     (el.attr("rot")||"R0")[(1..-1)].to_f
+  end
+
+  def parse_mirrored(el)
+    (el.attr("rot")||"").include? "M"
   end
 
 end
