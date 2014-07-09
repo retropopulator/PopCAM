@@ -75,7 +75,7 @@ class GCodeGenerator
   def move(axes)
     gcode = "G1"
     axes.each do |k, position|
-      gcode += " #{k.upcase}#{position * @layout[:scale][k]}"
+      gcode += " #{k.upcase}#{(position * @layout[:scale][k]).round(2)}"
     end
     gcode += " F#{@layout[:feedrate]}"
     gcodes << gcode
