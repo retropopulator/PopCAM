@@ -34,9 +34,9 @@ end
 opts[:board] = board
 
 # Getting a list of the components on the board
-puts "Bill of Materials"
+puts "\nBill of Materials"
+puts "#{"-"*80}\n\n"
 puts "Qty  Part"
-puts "-"*60
 board.components.map{|c| c.tape_id}.uniq.each do |name|
   qty = board.components.select{|c| c.tape_id == name}.count
   puts "#{qty.to_s.rjust 3, " "}  #{name}"
@@ -59,6 +59,11 @@ puts "\n\n"
 #   end
 # end
 # ap resistor_pads
+
+puts "Loading tapes\n#{"-"*80}\n"
+msg = "Misses will not be pick and placed. "
+msg += "Add tapes to your yml file to fix misses.\n\n"
+puts msg
 
 gcode_generator = GCodeGenerator.new(opts)
 

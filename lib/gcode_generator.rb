@@ -46,8 +46,9 @@ class GCodeGenerator
   def add_component(component)
     tape_id = component.tape_id
     tape = @tapes[tape_id]
-    return puts "[ #{"MISS".red()} ] Missing tape for #{tape_id} skipping #{component.name}" if tape.blank?
-    puts "[ #{"OK".greenish()}   ] Tape loaded for #{tape_id}"
+    msg = "#{"#{component.name} ".ljust(20, '.')} #{tape_id}"
+    return puts "[ #{"MISS".red()} ] #{msg}" if tape.blank?
+    puts "[ #{"OK".greenish()}   ] #{msg}"
     # Commenting the GCode
     comment "#{tape_id} ##{tape.current_index}", :h2
     # Pick up the component from the tape
