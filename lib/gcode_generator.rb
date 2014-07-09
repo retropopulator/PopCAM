@@ -46,7 +46,9 @@ class GCodeGenerator
   def add_component(component)
     tape_id = component.tape_id
     tape = @tapes[tape_id]
-    return puts "Missing tape for #{tape_id} skipping #{component.name}" if tape.blank?
+    msg = "#{"#{component.name} ".ljust(20, '.')} #{tape_id}"
+    return puts "[ #{"MISS".red()} ] #{msg}" if tape.blank?
+    puts "[ #{"OK".greenish()}   ] #{msg}"
     # Commenting the GCode
     comment "#{tape_id} ##{tape.current_index}", :h2
     # Pick up the component from the tape
@@ -73,7 +75,7 @@ class GCodeGenerator
   def move(axes)
     gcode = "G1"
     axes.each do |k, position|
-      gcode += " #{k.upcase}#{position * @layout[:scale][k]}"
+      gcode += " #{k.upcase}#{(position * @layout[:scale][k]).round(2)}"
     end
     gcode += " F#{@layout[:feedrate]}"
     gcodes << gcode
