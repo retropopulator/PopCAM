@@ -1,22 +1,19 @@
 require_relative './rotatable'
+require_relative './offset'
 
 class Tape
   include Rotatable
 
   attr_accessor :id, :current_index, :component_spacing
 
-  def self.from_config(id, attrs)
-    tape = Tape.new id, attrs.slice(:component_spacing)
-    [:x, :y, :z, :rotation].each do |k|
-      tape.send :"relative_#{k}=", attrs[k]
-    end
-    return tape
-  end
-
   def initialize(id, attrs)
     self.current_index = -1
     self.id = id
-    attrs.each { |k, v| self.send :"#{k}=", v }
+    self.component_spacing = attrs[:component_spacing]
+    self.parent = Offset.new attrs
+    if attrs[:tape_spacing]
+      set_position! y: attrs[:tape_spacing] * attrs[:index]
+    end
   end
 
   def next_component

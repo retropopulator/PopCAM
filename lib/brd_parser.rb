@@ -1,19 +1,24 @@
-require_relative './rotatable'
-require_relative './component'
-require_relative './invalid_file_exception'
-require_relative './brd_parsing_exception'
+require_relative './models/board'
+require_relative './models/component'
+require_relative './exceptions/invalid_file_exception'
+require_relative './exceptions/brd_parsing_exception'
 
-class Board
-  include Rotatable
+class BrdParser
 
-  attr_accessor :libraries, :components
+  attr_reader :board
+  delegate :libraries, :components, :to => :board
 
-  def initialize(opts)
-    @opts = opts
+  def self.parse(brd_file)
+    BrdParser.new(brd_file).parse
+  end
+
+  def initialize(brd_file)
+    @brd_file = brd_file
+    @board = Board.new
   end
 
   def parse
-    f = File.open(@opts[:brd_file])
+    f = File.open(@brd_file)
     @doc = Nokogiri::XML(f)
     if @doc.css('libraries').blank?
       msg =  "PopCAM does not support legacy .brd files. "
@@ -23,13 +28,13 @@ class Board
     parse_libraries
     parse_components
     f.close
-    return self
+    return board
   end
 
   # Loading the package libraries (each package is a specific type of component)
   # Packages are keyed by [library_name][package_name]
   def parse_libraries
-    self.libraries = {}
+    board.libraries = {}
     @doc.css('libraries library').each do |lib_el|
       # Adding the library
       lib_name = lib_el.attr(:name)
@@ -62,7 +67,7 @@ class Board
 
   def parse_components
     # Loading individual components (things on the board / instances of packages)
-    self.components = @doc.css('board elements element').map do |el|
+    board.components = @doc.css('board elements element').map do |el|
       library = libraries[el.attr("library").to_sym]
       error = "Library not found: #{el.attr("library")}" unless library.present?
       package = library[el.attr("package").to_sym]
@@ -70,7 +75,7 @@ class Board
       raise BrdParsingException.new error if error.present?
       device_name = [package[:name], el[:value]].reject {|s| s.blank?}
       .join("::").to_sym
-      ap el.attr("rot")
+      # ap el.attr("rot")
       Component.new(
         name: el[:name],
         device_name: device_name,
@@ -79,7 +84,7 @@ class Board
         relative_y: el.attr("y").to_f,
         relative_rotation: parse_rot(el),
         mirrored: parse_mirrored(el),
-        parent: self
+        parent: board
       )
     end
   end
@@ -98,5 +103,4 @@ class Board
   def parse_mirrored(el)
     (el.attr("rot")||"").include? "M"
   end
-
 end

@@ -1,39 +1,105 @@
-tapes:
-  "led::CHIPLED_1206::90deg":
-    component_spacing: 4
-    rotation: 90
-    x: 173
-    y: 5
-    z: 9
-    # z: 6.5
+# Board and Tape Configuration (this will need to be changed per-board)
+# -----------------------------------------------------------------------------
 
+# Tape positions. The actual coordinates and rotations of each tape is taken
+# care of in the tape_group section of the jig configuration. Every value from
+# the tape_group can also be optionally overriden here.
+# Strips should be positioned with the components closer to the pin bed (and
+# their feeder holes further from the pin bed). If you have components that
+# need to be oriented in the other direction set inverted to true.
+tapes:
+  "led::CHIPLED_1206":
+    # First LED Strip (placed in the second tape slot on the y axis)
+    - group: across_y
+      index: 2
+    # Second LED strip (placed in the first tape slot on the x axis)
+    - group: across_x
+      index: 1
+    # A custom tape position (tapes can override tape group properties)
+    - x: 173
+      y: 19
+      z: 9
+      rotation: 45
+      component_spacing: 4
+      inverted: true
+
+# Board positions. Note: x, y, z and rotation are all relative to the board
+# offsets.
+# Defaults:
+#   x:        0
+#   y:        0
+#   z:        0
+#   rotation: 0
+#   layer:    Top
 boards:
   # Board 1
-  - x: 50
+  - x: 0
     y: 0
-    z: 7.4
     # Top or Bottom
     layer: Top
-    # 0 to 360 degrees
-    rotation: 0
   # Board 2
-  - x: 100
-    y: 10
-    z: 7.4
+  - x: 0
+    y: 20
+    # Top or Bottom
+    layer: Top
+  # Board 3
+  - x: 0
+    y: 40
+    # Top or Bottom
+    layer: Top
+  # Board 4: An example of how to weirdly position a board
+  - x: 40
+    y: 30
+    z: 2
     # Top or Bottom
     layer: Top
     # 0 to 360 degrees
     rotation: 90
+
+
+# Jig Configuration (this should be calibrated once)
+# -----------------------------------------------------------------------------
 
 # feedrate: 12000
 feedrate: 3000
 z_travel_height: 10
 
+# Scale of the part. 1 is 1:1. 0.5 would be half-sized.
 scale:
   x: 1
   y: 1
   z: 1
 
+# Offset for the pin bed. Each board position will be relative to this.
+boards_offset:
+  x: 43
+  y: 47
+  z: 7.4
+  # 0 to 360 degrees
+  rotation: 0
+
+# Locations of each group of tapes and the spacing between each tapes'
+# centers and default rotations and component spacings.
+tape_groups:
+  across_x:
+    x: 173
+    y: 5
+    z: 9
+    rotation: 0
+    tape_spacing: 10
+    component_spacing: 4
+    inverted: false
+  across_y:
+    x: 173
+    y: 15
+    z: 9
+    rotation: 180
+    tape_spacing: 10
+    component_spacing: 4
+    inverted: true
+
+# GCode to run at the start and end of the pick and place operations (before
+# and after respectively).
 gcode:
   before: |
     ; set units to mm
