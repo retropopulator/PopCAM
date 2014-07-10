@@ -1,39 +1,31 @@
 require 'yaml'
-require_relative './tape'
+require_relative './models/tape'
 
 class GCodeGenerator
-  attr_reader :layout, :gcodes, :board
+  attr_reader :layout, :gcodes, :yml
 
-  def initialize(opts)
+  delegate :tapes, :to => :layout
+
+  def initialize(layout, yml)
     @xy = [:x, :y]
     @xyz = [:x, :y, :z]
-    @current_direction = {x: -1, y: -1, z: -1}
-    @current_position = {x: 0, y: 0, z: 0}
-    @opts = opts
-    @board = opts[:board]
-    @layout = YAML::load_file(@opts[:layout_file]).deep_symbolize_keys
-    @tapes = {}
-    @layout[:tapes].each  do |k, attrs|
-      tape = Tape.from_config(k, attrs)
-      @tapes[tape.id] = tape
-    end
+    @layout = layout
+    @yml = yml
   end
 
   def run
     @gcodes = []
-    @gcodes = @gcodes.concat @layout[:gcode][:before].split "\n"
-    move z: @layout[:z_travel_height]
+    @gcodes = @gcodes.concat yml[:gcode][:before].split "\n"
+    move z: yml[:z_travel_height]
     # Running through each board instance in the layout
-    @layout[:boards].each_with_index do |board_position, index|
+    layout.each_board_position do |board, index|
       comment "Board ##{index}", :h1
-      # Repositioning the board for this board_position
-      board.set_position! board_position.symbolize_keys
       # Adding the components of this board instance
       board.components.sort_by {|c| [c.x, c.y]}.each do |c|
         add_component(c) if c.package.present? and c.layer == board.layer.to_sym
       end
     end
-    @gcodes = @gcodes.concat @layout[:gcode][:after].split "\n"
+    @gcodes = @gcodes.concat yml[:gcode][:after].split "\n"
     return self
   end
 
@@ -45,10 +37,8 @@ class GCodeGenerator
 
   def add_component(component)
     tape_id = component.tape_id
-    tape = @tapes[tape_id]
-    msg = "#{"#{component.name} ".ljust(20, '.')} #{tape_id}"
-    return puts "[ #{"MISS".red()} ] #{msg}" if tape.blank?
-    puts "[ #{"OK".greenish()}   ] #{msg}"
+    tape = tapes[tape_id][component.rotation.round]
+    return if tape.blank?
     # Commenting the GCode
     comment "#{tape_id} ##{tape.current_index}", :h2
     # Pick up the component from the tape
@@ -60,7 +50,7 @@ class GCodeGenerator
   def move_to_component_and_up(component)
     move x: component.x, y: component.y
     move z: component.z
-    move z: @layout[:z_travel_height]
+    move z: yml[:z_travel_height]
   end
 
   # Add a comment line to the gcode
@@ -75,9 +65,9 @@ class GCodeGenerator
   def move(axes)
     gcode = "G1"
     axes.each do |k, position|
-      gcode += " #{k.upcase}#{(position * @layout[:scale][k]).round(2)}"
+      gcode += " #{k.upcase}#{(position * yml[:scale][k]).round(2)}"
     end
-    gcode += " F#{@layout[:feedrate]}"
+    gcode += " F#{yml[:feedrate]}"
     gcodes << gcode
   end
 

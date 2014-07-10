@@ -1,4 +1,5 @@
 module Rotatable
+
   attr_accessor(
     :relative_x, :relative_y, :relative_z, :relative_rotation, :parent, :layer
   )
