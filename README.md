@@ -35,7 +35,7 @@ For example: if your .brd file is `./test_123.brd` your .yml file should be `./t
 
 The best way to do this is to copy the contents of [HeartSparkBar_V2p0.yml](https://raw.githubusercontent.com/D1plo1d/PopCAM/master/examples/HeartSparkBar_V2p0.yml) into your new .yml file.
 
-Once you've got that done you'll want to modify the file to include all the settings for your particular brd and jig setup. The example file contains documentation on how to use its various settings.
+Once you've got that done you'll want to modify the file to include all the settings for your particular pcb and your jig setup. The example file contains documentation on how to use its various settings.
 
 ### 2. Running PopCAM
 
