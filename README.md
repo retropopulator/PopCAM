@@ -31,7 +31,7 @@ This is where it gets a bit tricky (mainly because PopCAM is very much a work
 in progress). To convert your .brd file to gcode your going to need to create a
 .yml file with the same name as your .brd file in the same directory.
 
-For example if your .brd file is `./test_123.brd` your .yml file should be `./test_123.yml`
+For example: if your .brd file is `./test_123.brd` your .yml file should be `./test_123.yml`
 
 The best way to do this is to copy the contents of [HeartSparkBar_V2p0.yml](https://raw.githubusercontent.com/D1plo1d/PopCAM/master/examples/HeartSparkBar_V2p0.yml) into your new .yml file.
 
@@ -39,9 +39,9 @@ Once you've got that done you'll want to modify the file to include all the sett
 
 ### 2. Running PopCAM
 
-Once you've got your .yml file setup run `popcam MY_BRD_FILE.brd` and PopCAM will create your gcode file
+Once you've got your .yml file setup run `popcam MY_BRD_FILE.brd` and PopCAM will create your gcode file.
 
-eg. `popcam ./test_123.brd` will take `./test_123.brd` and `./test_123.yml` and create `./test_123.gcode`
+For example: `popcam ./test_123.brd` will take `./test_123.brd` and `./test_123.yml` and create `./test_123.gcode`
 
 Now take that gcode file, put it in whatever 3D printer software you prefer and get pick and placing!
 
