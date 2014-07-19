@@ -10,7 +10,7 @@ PopCAM currently supports OSX and Linux. It should be possible to install PopCAM
 ### Dependencies
 
 There are no packages for PopCAM at this time (if you build one let me know!).
-So before you install PopCAM you will need to install the following first:
+So before you install PopCAM you will need to install:
 
 1. Ruby (1.8 or higher, this should be pre-installed on OSX)
 2. Bundler (run `gem install bundler`)
