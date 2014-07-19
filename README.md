@@ -41,7 +41,7 @@ Once you've got that done you'll want to modify the file to include all the sett
 
 Once you've got your .yml file setup run `popcam MY_BRD_FILE.brd` and PopCAM will create your gcode file
 
-eg. `popcam ./test_123.brd` will take `test_123.brd` and `test_123.yml` and create `test_123.gcode`
+eg. `popcam ./test_123.brd` will take `./test_123.brd` and `./test_123.yml` and create `./test_123.gcode`
 
 Now take that gcode file, put it in whatever 3D printer software you prefer and get pick and placing!
 
