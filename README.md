@@ -15,7 +15,7 @@ So before you install PopCAM you will need to install:
 1. Ruby (1.8 or higher, this should be pre-installed on OSX)
 2. Bundler (run `gem install bundler`)
 
-### Download and Install
+### Download and Installation
 
 Run the following in your command line from the directory where you want to install PopCAM:
 
