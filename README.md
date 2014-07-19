@@ -2,7 +2,7 @@
 
 This command line tool converts Eagle brd files into pick and place gcode files for the [RetroPopulator](http://hackaday.io/project/1605) pick and place retrofit.
 
-Note: PopCAM currently only supports OSX and Linux. It should be possible to install PopCAM on Windows however I haven't tried it yet.
+Note: PopCAM currently only supports OSX and Linux at the moment. It should be possible to install PopCAM on Windows however I haven't tried it yet.
 
 
 ## Installation (OSX and Linux)
