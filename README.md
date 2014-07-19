@@ -33,7 +33,7 @@ in progress). To convert your .brd file to gcode your going to need to create a
 
 For example if your .brd file is `./test_123.brd` your .yml file should be `./test_123.yml`
 
-The best way to do this is to copy and rename the [HeartSparkBar_V2p0.yml](https://raw.githubusercontent.com/D1plo1d/PopCAM/master/examples/HeartSparkBar_V2p0.yml) example included with PopCAM.
+The best way to do this is to copy the contents of [HeartSparkBar_V2p0.yml](https://raw.githubusercontent.com/D1plo1d/PopCAM/master/examples/HeartSparkBar_V2p0.yml) into your new .yml file.
 
 Once you've got that done you'll want to modify the file to include all the settings for your particular brd and jig setup. The example file contains documentation on how to do this.
 
