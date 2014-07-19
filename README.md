@@ -1,6 +1,6 @@
 # PopCAM
 
-This command line tool provides a simple way to turn Eagle .brd files into pick and place gcodes for use with a [RetroPopulator](http://hackaday.io/project/1605) pick and place retrofit.
+This command line tool converts Eagle .brd files into pick and place gcode files for use with a [RetroPopulator](http://hackaday.io/project/1605) pick and place retrofit.
 
 PopCAM currently supports OSX and Linux. It should be possible to install PopCAM on Windows however I haven't tried it yet. Note: the install instructions are specific to Linux and OSX.
 
@@ -42,6 +42,8 @@ Once you've got that done you'll want to modify the file to include all the sett
 Once you've got your .yml file setup run `popcam MY_BRD_FILE.brd` and PopCAM will create your gcode file
 
 eg. `popcam ./test_123.brd` will take `test_123.brd` and `test_123.yml` and create `test_123.gcode`
+
+Now take that gcode file, put it in whatever 3D printer software you prefer and get pick and placing!
 
 ## License
 
