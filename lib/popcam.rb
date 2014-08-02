@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
-
 require 'rubygems'
+require 'bundler/setup'
 require 'nokogiri'
 require 'active_support/all'
 require 'rubygems'

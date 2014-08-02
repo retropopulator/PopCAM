@@ -25,6 +25,7 @@ class LayoutParser
   private
 
   def initialize_tape(id, attrs)
+    attrs = attrs.symbolize_keys
     if attrs[:group].present?
       attrs = yml[:tape_groups][attrs[:group].to_sym].merge attrs
     end

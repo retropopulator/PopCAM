@@ -40,7 +40,7 @@ class GCodeGenerator
     tape = tapes[tape_id][component.rotation.round]
     return if tape.blank?
     # Commenting the GCode
-    comment "#{tape_id} ##{tape.current_index}", :h2
+    comment "#{tape_id} ##{tape.current_index + 2}", :h2
     # Pick up the component from the tape
     move_to_component_and_up tape.next_component
     # Move the component into position and place it
