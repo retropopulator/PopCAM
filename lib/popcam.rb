@@ -49,11 +49,16 @@ grouped.each do |tape_id, components|
   miss = !components.all? do |c|
     (tapes[tape_id]||{}).keys.include? c.rotation
   end
+  components_text = components.map do |c|
+    tape_group = (yml[:tape_groups].find{|k, tg| tg[:rotation].to_f == c.rotation || (tg[:rotation].to_f + 180) %360 == c.rotation}||[])[0]
+    "#{c.name} (#{c.rotation.round} / #{ tape_group || "N/A" })"
+  end
+
   puts [
     " [ #{miss ? "MISS".red : "OK  ".greenish} ]",
     qty.to_s.rjust(3, " "),
     "#{tape_id}".ljust(50, '.'),
-    components.map{|c| "#{c.name} (#{c.rotation.round} deg)"}.sort.join(", ")
+    components_text.sort.join(", ")
   ].join("  ")
 end
 

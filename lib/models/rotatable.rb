@@ -1,7 +1,13 @@
 module Rotatable
 
   attr_accessor(
-    :relative_x, :relative_y, :relative_z, :relative_rotation, :parent, :layer
+    :relative_x,
+    :relative_y,
+    :relative_z,
+    :relative_rotation,
+    :inverted,
+    :parent,
+    :layer
   )
 
   # Absolute x coordinate
@@ -20,8 +26,14 @@ module Rotatable
   end
 
   def rotation
+    inversion = self.inverted ? 180 : 0
     parent_rotation = parent.present? ? parent.rotation : 0
-    @abs_rotation = (relative_rotation||0) + parent_rotation
+    @abs_rotation = ((relative_rotation||0) + inversion + parent_rotation)%360
+  end
+
+  def rotation_without_inversions
+    parent_rotation = parent.present? ? parent.rotation_without_inversions : 0
+    @abs_rotation = ((relative_rotation||0) + parent_rotation)%360
   end
 
   # Memoized sin rotation value
@@ -45,6 +57,7 @@ module Rotatable
     @relative_x = coords[:x] || 0
     @relative_y = coords[:y] || 0
     @relative_z = coords[:z] || 0
+    @inverted = coords[:inverted] || false
     self.layer = coords[:layer] || "Top"
     self.relative_rotation = (
       coords[:relative_rotation] || coords[:rotation] || 0

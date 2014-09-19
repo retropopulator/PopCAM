@@ -20,7 +20,7 @@ class Tape
     # incrementing the tape position
     self.current_index += 1
     return Component.new(
-      relative_x: current_index * component_spacing,
+      relative_x: current_index * component_spacing * (parent.inverted ? -1 : 1),
       parent: self
     )
   end
