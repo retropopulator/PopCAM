@@ -93,7 +93,7 @@ tape_groups:
     x: 173
     y: 15
     z: 9
-    rotation: 180
+    rotation: 90
     tape_spacing: 10
     component_spacing: 4
     inverted: true

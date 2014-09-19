@@ -46,7 +46,9 @@ grouped = board.components.inject({}){|h, c| (h[c.tape_id] ||= []) << c; h}
 # Iterating through the groups
 grouped.each do |tape_id, components|
   qty = components.count
-  miss = tapes[tape_id].blank?
+  miss = !components.all? do |c|
+    (tapes[tape_id]||{}).keys.include? c.rotation
+  end
   puts [
     " [ #{miss ? "MISS".red : "OK  ".greenish} ]",
     qty.to_s.rjust(3, " "),

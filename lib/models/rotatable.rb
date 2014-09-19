@@ -35,7 +35,7 @@ module Rotatable
   end
 
   def relative_rotation=(val)
-    @relative_rotation = val
+    @relative_rotation = val.to_f
     @cos = nil
     @sin = nil
   end

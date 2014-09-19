@@ -11,9 +11,9 @@ class Tape
     self.id = id
     self.component_spacing = attrs[:component_spacing]
     self.parent = Offset.new attrs
-    if attrs[:tape_spacing]
-      set_position! y: attrs[:tape_spacing] * attrs[:index]
-    end
+    set_position!(
+      y: (attrs[:tape_spacing]||0) * attrs[:index]
+    )
   end
 
   def next_component
