@@ -14,7 +14,7 @@ class LayoutParser
     @layout = Layout.new
     # Adding the tapes to the layout
     yml[:tapes].each  do |k, orientations|
-      orientations.each { |attrs| initialize_tape k, attrs}
+      orientations.each { |attrs| initialize_tape k, attrs.symbolize_keys}
     end
     # Adding the boards to the layout
     layout.board = board
