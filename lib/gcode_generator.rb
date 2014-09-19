@@ -38,7 +38,7 @@ class GCodeGenerator
   def add_component(component)
     tape_id = component.tape_id
     return if tapes[tape_id].blank?
-    tape = tapes[tape_id][component.rotation.round]
+    tape = tapes[tape_id][component.rotation]
     return if tape.blank?
     # Commenting the GCode
     comment "#{tape_id} ##{tape.current_index}", :h2
