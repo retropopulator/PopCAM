@@ -33,7 +33,7 @@ module Rotatable
 
   def rotation_without_inversions
     parent_rotation = parent.present? ? parent.rotation_without_inversions : 0
-    @abs_rotation = ((relative_rotation||0) + parent_rotation)%360
+    @abs_rotation_wo_inversion = ((relative_rotation||0) + parent_rotation)%360
   end
 
   # Memoized sin rotation value

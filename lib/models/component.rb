@@ -8,7 +8,7 @@ class Component
 
   @@layer_inversions = {:Top => :Bottom, :Bottom => :Top}
 
-  def initialize(attrs)
+  def initialize(attrs={})
     attrs.each { |k, v| self.send :"#{k}=", v }
   end
 
