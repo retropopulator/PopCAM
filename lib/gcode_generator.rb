@@ -46,13 +46,13 @@ class GCodeGenerator
     # Pick up the component from the tape
     move_to_component_and_up tape.next_component
     # Move the component into position and place it
-    # move_to_component_and_up component
+    move_to_component_and_up component
   end
 
   def move_to_component_and_up(component)
     move x: component.x, y: component.y
-    # move z: component.z
-    # move z: yml[:z_travel_height]
+    move z: component.z
+    move z: yml[:z_travel_height]
   end
 
   # Add a comment line to the gcode

@@ -7,6 +7,8 @@ class Tape
   attr_accessor :id, :current_index, :component_spacing
 
   def initialize(id, attrs)
+    [:tape_spacing, :index].each {|k| attrs[k] ||= 0}
+
     self.current_index = 0
     self.id = id
     self.component_spacing = attrs[:component_spacing]

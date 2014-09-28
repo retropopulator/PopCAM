@@ -11,10 +11,10 @@ tapes:
   "led::CHIPLED_1206":
     # First LED Strip (placed in the second tape slot on the y axis)
     - group: across_y
-      index: 2
+      index: 0
     # Second LED strip (placed in the first tape slot on the x axis)
     - group: across_x
-      index: 1
+      index: 0
     # A custom tape position (tapes can override tape group properties)
     - x: 173
       y: 19
@@ -22,6 +22,9 @@ tapes:
       rotation: 45
       component_spacing: 4
       inverted: true
+  "tanjent::0603_TANJ::33k":
+    - group: across_y
+      index: 1
 
 # Board positions. Note: x, y, z and rotation are all relative to the board
 # offsets.
@@ -96,7 +99,7 @@ tape_groups:
     rotation: 90
     tape_spacing: 10
     component_spacing: 4
-    inverted: true
+    inverted: false
 
 # GCode to run at the start and end of the pick and place operations (before
 # and after respectively).

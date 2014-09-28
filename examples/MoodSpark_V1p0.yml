@@ -1,0 +1,133 @@
+# Board and Tape Configuration (this will need to be changed per-board)
+# -----------------------------------------------------------------------------
+# Tape positions. The actual coordinates and rotations of each tape is taken
+# care of in the tape_group section of the jig configuration. Every value from
+# the tape_group can also be optionally overriden here.
+# Strips should be positioned with the components closer to the pin bed (and
+# their feeder holes further from the pin bed). If you have components that
+# need to be oriented in the other direction set inverted to true.
+tapes:
+  "tanjent::0603_TANJ::1k":
+    # First LED Strip (placed in the second tape slot on the y axis)
+    - group: across_y
+      index: 0
+  "tanjent::0603_TANJ::10k":
+    - group: across_y
+      index: 1
+  # "SparkFun::0805::22":
+  #   - group: across_y
+  #     index: 2
+  # "SparkFun::0805::0":
+  #   - group: across_y_bottom
+  #     index: 0
+  #     inverted: true
+  # "tanjent::0603_TANJ::30k":
+  #   - group: across_y_bottom
+  #     index: 1
+  # "SparkFun::0402-CAP::0.1":
+  #   - group: across_x
+  #     index: 0
+
+# Board positions. Note: x, y, z and rotation are all relative to the board
+# offsets.
+# Defaults:
+#   x:        0
+#   y:        0
+#   z:        0
+#   rotation: 0
+#   layer:    Top
+boards:
+  # Board 1
+  - x: -20.3  # 20.3mm = 0.8 inch --> board radius is 0.4 inch
+    y: -30    # -9.7 to top of board (green peg)
+    # Top or Bottom
+    layer: Top
+  # Board 2
+  - x: -20.3
+    y: -50
+    # Top or Bottom
+    layer: Top
+  # Board 3
+  - x: -20.3
+    y: -90
+    # Top or Bottom
+    layer: Top
+  # Board 4
+  - x: -20.3
+    y: -130
+    # Top or Bottom
+    layer: Top
+
+
+# Jig Configuration (this should be calibrated once)
+# -----------------------------------------------------------------------------
+
+# feedrate: 12000
+feedrate: 3000
+z_travel_height: 10
+
+# Scale of the part. 1 is 1:1. 0.5 would be half-sized.
+scale:
+  x: 1
+  y: 1
+  z: 1
+
+# Offset for the pin bed. Each board position will be relative to this.
+boards_offset:
+  x: 134.5
+  y: 156.8
+  z: 17.4  # need to measure this
+  # 0 to 360 degrees
+  rotation: 0
+
+# Locations of each group of tapes and the spacing between each tapes'
+# centers and default rotations and component spacings.
+tape_groups:
+  across_x:
+    x: 130.1
+    y: 161.8
+    z: 20   #need to measure this
+    rotation: 0
+    tape_spacing: 10
+    component_spacing: 4
+    inverted: false
+  across_y:
+    x: 140.6
+    y: 154.0
+    z: 20  # need to measure this
+    rotation: 90
+    tape_spacing: 10
+    component_spacing: 4
+    inverted: false
+  across_y_bottom:
+    x: 150.6
+    y: 0
+    z: 20  # need to measure this
+    rotation: 90
+    tape_spacing: 10
+    component_spacing: -4
+    inverted: false
+
+
+# GCode to run at the start and end of the pick and place operations (before
+# and after respectively).
+gcode:
+  before: |
+    ; set units to mm
+    G21
+    ; clear the jig and move to home
+    G1 X0 F300
+    G1 Z5 F300
+    G90
+    G28 X0 Y0
+    G28 X0 Y0 Z0
+    ; enable absolute movement
+    G90
+
+  after: |
+    ; clear the jig and move to home
+    G1 X0 F300
+    G1 Z5 F300
+    G90
+    G28 X0 Y0
+    G28 X0 Y0 Z0
