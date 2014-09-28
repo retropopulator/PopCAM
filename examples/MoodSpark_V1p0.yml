@@ -96,7 +96,7 @@ tape_groups:
     y: 154.0
     z: 20  # need to measure this
     rotation: 90
-    tape_spacing: 10
+    tape_spacing: -10
     component_spacing: 4
     inverted: false
   across_y_bottom:

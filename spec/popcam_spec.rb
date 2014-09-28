@@ -36,20 +36,19 @@ describe PopCAM do
       return h
     end
 
-    it "should pick components from the strip with the correct increment" do
-      x = (0..1).map {|i| pick_coords("tanjent::0603_TANJ::1k @ 90.0° ##{i}")[:x]}
-      expect(x[0]).to eq 0
-      expect(x[1]).to eq 4
+    it "should pick components from the strip with the correct component spacing" do
+      y = (0..1).map {|i| pick_coords("tanjent::0603_TANJ::1k @ 90.0° ##{i}")[:y]}
+      expect(y[0]).to eq 154.0 + 0
+      expect(y[1]).to eq 154.0 + 4
     end
 
-    it "should pick components from subsequent strips with the correct spacing" do
-      ap @gcodes
-      y = [
+    it "should pick components from subsequent strips with the correct tape spacing" do
+      x = [
         "tanjent::0603_TANJ::1k @ 90.0° #0",
         "tanjent::0603_TANJ::10k @ 90.0° #0"
-      ].map {|comment| pick_coords(comment)[:y]}
-      expect(y[0]).to eq 0
-      expect(y[1]).to eq 10
+      ].map {|comment| pick_coords(comment)[:x]}
+      expect(x[0]).to eq 140.6
+      expect(x[1]).to eq 150.6
     end
 
   end
